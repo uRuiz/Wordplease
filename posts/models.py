@@ -6,6 +6,8 @@ from categories.models import Category
 
 class Post(models.Model):
 
+    owner = models.ForeignKey(User)
+
     title = models.CharField(max_length=150)  # Guarda el título del post
     introduction = models.TextField()  # Guarda el texto de cabecera del post
     body = models.TextField()  # Guarda el texto del cuerpo del post
@@ -15,7 +17,6 @@ class Post(models.Model):
     modified_at = models.DateTimeField(auto_now=True)  # Guarda la fecha de última modificación del post
 
     categories = models.ManyToManyField(Category)
-    owner = models.ForeignKey(User)
 
     def __str__(self):
         return self.title

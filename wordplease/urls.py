@@ -16,9 +16,10 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from posts.views import home
+from posts.views import home, post_detail
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^posts/(?P<pk>\d+)$', post_detail),
     url(r'^$', home),
 ]
