@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bienvenido a Wordplease - La plataforma para blogs!</title>
+</head>
+<body>
+    <h1>Bienvenido a Wordplease</h1>
+    <p>Una copia de Medium</p>
+
+    {% if posts_list|length > 0 %}
+
+        <h2>Últimos posts publicados</h2>
+        {% for post in posts_list %}
+            <h3>Título: {{ post.title }}</h3>
+            <img src="{{ post.url }}" alt="{{ post.name }}" title="{{  post.title }}" height="140">
+        {% endfor %}
+
+    {% else %}
+        <p>Únete a nosotros y se el primero en crear un post!</p>
+    {% endif %}
+</body>
+</html>
