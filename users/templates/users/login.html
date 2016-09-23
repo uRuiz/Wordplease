@@ -1,17 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
     {{ error }}
     <form method="POST">
         {% csrf_token %}
-        <input type="text" id="username" name="username" placeholder="Nombre de usuario">
-        <input type="password" id="pwd" name="pwd" placeholder="Password">
+        {{ form.as_p }}
         <button type="submit">Login</button>
     </form>
-
-</body>
-</html>
+{% endblock %}
