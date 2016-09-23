@@ -5,6 +5,8 @@
     <title>Bienvenido a Wordplease - La plataforma para blogs!</title>
 </head>
 <body>
+
+    {% include "posts/includes/menu.html" %}
     <h1>Bienvenido a Wordplease</h1>
     <p>Una copia de Medium</p>
 
@@ -12,8 +14,10 @@
 
         <h2>Últimos posts publicados</h2>
         {% for post in posts_list %}
-            <h3>Título: {{ post.title }}</h3>
-            <img src="{{ post.url }}" alt="{{ post.name }}" title="{{  post.title }}" height="140">
+            <a href="/posts/{{ post.pk }}">
+                <h3>Título: {{ post.title }}</h3>
+                <img src="{{ post.url }}" alt="{{ post.name }}" title="{{  post.title }}" height="140">
+            </a>
         {% endfor %}
 
     {% else %}

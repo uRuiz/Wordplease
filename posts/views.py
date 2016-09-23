@@ -21,7 +21,7 @@ def post_detail(request, pk):
     :param request: objeto HttpRequest con los datos de la petición
     :return: objeto HttpResposne con los datos de la respuesta
     """
-    possible_posts = Post.objects.filter(pk=pk)
+    possible_posts = Post.objects.filter(pk=pk).select_related('owner')
     if len(possible_posts) == 0:
         return HttpResponseNotFound("El post que buscas no existe")
     elif len(possible_posts) > 1:
