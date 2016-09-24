@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
@@ -84,7 +85,11 @@ class PostCreationView(View):
         return render(request, 'posts/post_creation.html', context)
 
 
-class PostListView(ListView):
+class PostListView(LoginRequiredMixin, ListView):
 
     model = Post
     template_name = 'posts/post_list.html'
+
+    def get_queryset(self):
+        return super().get_queryset().filter(owner=self.request.user)
+
