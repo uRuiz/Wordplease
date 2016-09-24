@@ -16,15 +16,15 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from posts.views import home, post_detail, post_creation
-from users.views import login, logout
+from posts.views import HomeView, PostDetailView, PostCreationView
+from users.views import LoginView, LogoutView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^login$', login),
-    url(r'^logout$', logout),
+    url(r'^login$', LoginView.as_view()),
+    url(r'^logout$', LogoutView.as_view()),
 
-    url(r'^create$', post_creation),
-    url(r'^posts/(?P<pk>\d+)$', post_detail),
-    url(r'^$', home),
+    url(r'^create$', PostCreationView.as_view()),
+    url(r'^posts/(?P<pk>\d+)$', PostDetailView.as_view()),
+    url(r'^$', HomeView.as_view()),
 ]

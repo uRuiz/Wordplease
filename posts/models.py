@@ -9,7 +9,7 @@ class Post(models.Model):
     owner = models.ForeignKey(User)
 
     title = models.CharField(max_length=150)  # Guarda el título del post
-    introduction = models.TextField()  # Guarda el texto de cabecera del post
+    summary = models.CharField(max_length=150)  # Guarda el texto de cabecera del post
     body = models.TextField()  # Guarda el texto del cuerpo del post
     url = models.URLField(blank=True, null=True, default="")  # Guarda la URL de la foto/video del post
     published_date = models.DateTimeField()  # Guarda la fecha de publicación del post

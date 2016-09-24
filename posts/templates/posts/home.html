@@ -8,10 +8,15 @@
 
         <h2>Últimos posts publicados</h2>
         {% for post in posts_list %}
+            <h3>Título: {{ post.title }}</h3>
             <a href="/posts/{{ post.pk }}">
-                <h3>Título: {{ post.title }}</h3>
-                <img src="{{ post.url }}" alt="{{ post.name }}" title="{{  post.title }}" height="140">
+                {% if post.url == "" %}
+                    <p>JJ</p>
+                {% else %}
+                     <img src="{{ post.url }}" alt="{{ post.name }}" title="{{  post.title }}" height="140">
+                {% endif %}
             </a>
+            <p>{{ post.summary }}</p>
         {% endfor %}
 
     {% else %}
