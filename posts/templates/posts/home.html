@@ -1,26 +1,11 @@
 {% extends 'base.html' %}
-
 {% block body %}
     <h1>Bienvenido a Wordplease</h1>
     <p>Una copia de Medium</p>
-
     {% if posts_list|length > 0 %}
-
         <h2>Últimos posts publicados</h2>
-        {% for post in posts_list %}
-            <h3>Título: {{ post.title }}</h3>
-            <a href="/posts/{{ post.pk }}">
-                {% if post.url == "" %}
-                    <p>JJ</p>
-                {% else %}
-                     <img src="{{ post.url }}" alt="{{ post.name }}" title="{{  post.title }}" height="140">
-                {% endif %}
-            </a>
-            <p>{{ post.summary }}</p>
-        {% endfor %}
-
+        {% include 'posts/includes/post_loop.html' %}
     {% else %}
         <p>Únete a nosotros y se el primero en crear un post!</p>
     {% endif %}
-
 {% endblock %}

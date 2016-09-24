@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.generic import ListView
 
 from posts.forms import PostForm
 from posts.models import Post
@@ -81,3 +82,9 @@ class PostCreationView(View):
             'message': message,
         }
         return render(request, 'posts/post_creation.html', context)
+
+
+class PostListView(ListView):
+
+    model = Post
+    template_name = 'posts/post_list.html'

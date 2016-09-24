@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from posts.views import HomeView, PostDetailView, PostCreationView
+from posts.views import HomeView, PostDetailView, PostCreationView, PostListView
 from users.views import LoginView, LogoutView
 
 urlpatterns = [
@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^logout$', LogoutView.as_view()),
 
     url(r'^create$', PostCreationView.as_view()),
+    url(r'^posts/$', PostListView.as_view()),
     url(r'^posts/(?P<pk>\d+)$', PostDetailView.as_view()),
     url(r'^$', HomeView.as_view()),
 ]
