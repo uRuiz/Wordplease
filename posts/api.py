@@ -1,7 +1,7 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
 from posts.models import Post
-from posts.serializers import PostSerializer
+from posts.serializers import PostSerializer, PostListSerializer
 
 
 class PostListAPI(ListCreateAPIView):
@@ -9,7 +9,9 @@ class PostListAPI(ListCreateAPIView):
     Endpoint de listado y creación de posts
     """
     queryset = Post.objects.all()
-    serializer_class = PostSerializer
+
+    def get_serializer_class(self):
+        return PostSerializer if self.request.method == 'POST' else PostListSerializer
 
 
 class PostDetailAPI(RetrieveUpdateDestroyAPIView):
