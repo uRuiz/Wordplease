@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from posts.api import PostListAPI
+from posts.api import PostListAPI, PostDetailAPI
 from posts.views import HomeView, PostDetailView, PostCreationView, BlogListView, MyPostsListView
 
 urlpatterns = [
@@ -11,5 +11,6 @@ urlpatterns = [
     url(r'^$', HomeView.as_view(), name='posts_home'),
 
     # API URLs
-    url(r'^api/1.0/posts/$', PostListAPI.as_view(), name='api_photos_list')
+    url(r'^api/1.0/posts/$', PostListAPI.as_view(), name='api_posts_list'),
+    url(r'^api/1.0/posts/(?P<pk>\d+)$', PostDetailAPI.as_view(), name='api_posts_detail')
 ]
