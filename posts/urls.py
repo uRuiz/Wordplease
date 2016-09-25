@@ -1,7 +1,11 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
+from rest_framework.routers import DefaultRouter
 
-from posts.api import PostListAPI, PostDetailAPI
+from posts.api import PostViewSet
 from posts.views import HomeView, PostDetailView, PostCreationView, BlogListView, MyPostsListView
+
+router = DefaultRouter()
+router.register('api/1.0/posts', PostViewSet, base_name='api_posts')
 
 urlpatterns = [
     url(r'^new_post$', PostCreationView.as_view(), name='posts_create'),
@@ -11,6 +15,5 @@ urlpatterns = [
     url(r'^$', HomeView.as_view(), name='posts_home'),
 
     # API URLs
-    url(r'^api/1.0/posts/$', PostListAPI.as_view(), name='api_posts_list'),
-    url(r'^api/1.0/posts/(?P<pk>\d+)$', PostDetailAPI.as_view(), name='api_posts_detail')
+    url(r'', include(router.urls))
 ]

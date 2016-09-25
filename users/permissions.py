@@ -26,4 +26,4 @@ class UserPermission(BasePermission):
         :param obj:
         :return:
         """
-        return self.request.user.is_superuser or self.request.user == obj
+        return request.user.is_superuser or request.user == obj
