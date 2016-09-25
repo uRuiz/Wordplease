@@ -35,12 +35,17 @@ class HomeView(View):
 class PostQueryset(object):
 
     @staticmethod
-    def get_posts_by_user(user):
+    def get_posts_by_user(user, username):
         possible_posts = Post.objects.all().select_related('owner')
         if not user.is_authenticated():
             possible_posts = possible_posts.filter(published_date__lte=timezone.now())
         elif not user.is_superuser:
-            possible_posts = possible_posts.filter(Q(published_date__lte=timezone.now()) | Q(owner=user))
+            if user.username == username:
+                possible_posts = possible_posts.filter(owner__username__exact=username)
+            else:
+                possible_posts = possible_posts.filter(published_date__lte=timezone.now())
+        else:
+            possible_posts = possible_posts.filter(owner__username__exact=username)
         return possible_posts
 
 
@@ -120,7 +125,8 @@ class BlogListView(View):
 class MyPostsListView(View):
 
     def get(self, request, username):
-        my_posts_list = Post.objects.filter(owner=self.request.user).order_by('-published_date')
+        my_posts_list = PostQueryset.get_posts_by_user(request.user, username).order_by('-published_date')
+        #my_posts_list = Post.objects.filter(owner=request.user.pk).order_by('-published_date')
         context = {
             'posts_list': my_posts_list,
         }
