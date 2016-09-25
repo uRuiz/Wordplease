@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
 
-class PostSerializer(serializers.Serializer):
+#class PostSerializer(serializers.Serializer):
 
 
