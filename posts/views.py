@@ -126,7 +126,6 @@ class MyPostsListView(View):
 
     def get(self, request, username):
         my_posts_list = PostQueryset.get_posts_by_user(request.user, username).order_by('-published_date')
-        #my_posts_list = Post.objects.filter(owner=request.user.pk).order_by('-published_date')
         context = {
             'posts_list': my_posts_list,
         }
