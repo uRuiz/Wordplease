@@ -4,7 +4,9 @@
 {% endblock %}
 {% block body %}
     <h1>{{ post.title }}</h1>
-    <img src="{{ post.url }}" alt="{{ post.title }}" title="{{ post.introduction}}" width="500">
+    {% if post.url != "" %}
+        <img src="{{ post.url }}" alt="{{ post.title }}" title="{{ post.introduction}}" width="500">
+    {% endif %}
     <p>
         <strong>Autor: </strong>
         {{ post.owner.first_name }} {{ post.owner.last_name }}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block body %}
+    <h1>Blogs</h1>
+
+        <h2>Listado de blogs publicados</h2>
+
+        {% if list|length > 0 %}
+
+            {% for users in list %}
+
+                <h3>Blog de {{ users.first_name }} {{ users.last_name }}</h3>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>Únete a nosotros y se el primero en crear un blog!</p>
+
+        {% endif %}
+
+
+{% endblock %}

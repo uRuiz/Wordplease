@@ -39,7 +39,7 @@ class PostDetailView(View):
         possible_posts = Post.objects.filter(pk=pk).select_related('owner')
         if not request.user.is_authenticated():
             possible_posts = possible_posts.filter(published_date__lte=timezone.now())
-        elif request.user.is_authenticated():
+        else:
             possible_posts = possible_posts.filter(Q(published_date__lte=timezone.now()) | Q(owner=request.user))
         if len(possible_posts) == 0:
             return HttpResponseNotFound("El post que buscas no existe")
@@ -95,10 +95,21 @@ class PostCreationView(View):
         return render(request, 'posts/post_creation.html', context)
 
 
-class PostListView(LoginRequiredMixin, ListView):
+class BlogListView(View):
 
-    model = Post
-    template_name = 'posts/post_list.html'
+    def get(self, request):
+        blog_list = User.objects.all()
+        context = {
+            'list': blog_list,
+        }
+        return render(request, 'posts/blogs_list.html', context)
 
-    def get_queryset(self):
-        return super().get_queryset().filter(owner=self.request.user)
+
+class MyPostsListView(View):
+
+    def get(self, request, username):
+        my_posts_list = Post.objects.all().select_related('owner').order_by('-published_date')
+        context = {
+            'posts_list': my_posts_list,
+        }
+        return render(request, 'posts/blogs_list.html', context)
