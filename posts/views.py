@@ -1,4 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
@@ -6,6 +8,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import ListView
 from django.urls import reverse
+from django.utils import timezone
 
 from posts.forms import PostForm
 from posts.models import Post
@@ -20,27 +23,31 @@ class HomeView(View):
         :return: objeto HttpResposne con los datos de la respuesta
         """
         # Recupera todos los posts de la base de datos
-        posts = Post.objects.all().order_by('-created_at')  # filter(published_date < datetime.now())
+        posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-created_at')  # filter(published_date < datetime.now())
         context = {'posts_list': posts[:5]}
         return render(request, 'posts/home.html', context)
 
 
 class PostDetailView(View):
 
-    def get(self, request, pk):
+    def get(self, request, username, pk):
         """
-        Renderiza el detaller de una imagen
+        Renderiza el detalle de una imagen
         :param request: objeto HttpRequest con los datos de la petición
         :return: objeto HttpResposne con los datos de la respuesta
         """
         possible_posts = Post.objects.filter(pk=pk).select_related('owner')
+        if not request.user.is_authenticated():
+            possible_posts = possible_posts.filter(published_date__lte=timezone.now())
+        elif request.user.is_authenticated():
+            possible_posts = possible_posts.filter(Q(published_date__lte=timezone.now()) | Q(owner=request.user))
         if len(possible_posts) == 0:
             return HttpResponseNotFound("El post que buscas no existe")
         elif len(possible_posts) > 1:
             return HttpResponse("Múltiples opciones", status=300)
         post = possible_posts[0]
         context = {
-            'post': post
+            'post': post,
         }
 
         return render(request, 'posts/post_detail.html', context)
@@ -95,4 +102,3 @@ class PostListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return super().get_queryset().filter(owner=self.request.user)
-

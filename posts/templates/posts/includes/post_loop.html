@@ -1,9 +1,11 @@
 {% for post in posts_list %}
-    <h3>Título: {{ post.title }}</h3>
-    <a href="{% url 'posts_detail' post.pk %}">
+
+    <a href="{% url 'posts_detail' post.owner.username post.pk %}">
+        <h3>Título: {{ post.title }}</h3>
         {% if post.url != "" %}
              <img src="{{ post.url }}" alt="{{ post.name }}" title="{{  post.title }}" height="140">
         {% endif %}
+        <p>{{ post.summary }}</p>
     </a>
-    <p>{{ post.summary }}</p>
+
 {% endfor %}
