@@ -8,7 +8,7 @@
 
             {% for users in list %}
 
-                <h3>Blog de {{ users.first_name }} {{ users.last_name }}</h3>
+                <h3>Blog de <a href="{{ users.first_name }}">{{ users.first_name }} {{ users.last_name }}</a></h3>
 
             {% endfor %}
 

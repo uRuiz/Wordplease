@@ -2,7 +2,14 @@
 {% block body %}
     <h1>Mis posts</h1>
     {% if posts_list|length > 0 %}
-        {% include 'posts/includes/post_loop.html' with posts_list=object_list %}
+         {% for post in posts_list %}
+            <hr>
+            <p><strong>Título:</strong>{{ post.title }}</p>
+            {% if post.url != "" %}
+                <p><img src="{{ post.url }}" alt="{{ post.title }}"></p>
+            {% endif %}
+            <p><strong>Resumen:</strong>{{ post.summary }}</p>
+        {% endfor %}
     {% else %}
         <p>Únete a nosotros y se el primero en crear un post!</p>
     {% endif %}

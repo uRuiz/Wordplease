@@ -108,8 +108,8 @@ class BlogListView(View):
 class MyPostsListView(View):
 
     def get(self, request, username):
-        my_posts_list = Post.objects.all().select_related('owner').order_by('-published_date')
+        my_posts_list = Post.objects.filter(owner=request.user).order_by('-published_date')
         context = {
             'posts_list': my_posts_list,
         }
-        return render(request, 'posts/blogs_list.html', context)
+        return render(request, 'posts/post_list.html', context)
