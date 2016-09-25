@@ -10,5 +10,5 @@ urlpatterns = [
     url(r'^signup$', SignupView.as_view(), name='users_signup'),
 
     # API URLs
-    url(r'api/1.0/users/(?P<pk>\d)$', UserDetailAPI.as_view(), name='api_user_list')
+    url(r'^api/1.0/users/(?P<pk>\d)$', UserDetailAPI.as_view(), name='api_user_list')
 ]

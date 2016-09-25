@@ -1,5 +1,6 @@
 from django.conf.urls import url
 
+from posts.api import PostListAPI
 from posts.views import HomeView, PostDetailView, PostCreationView, BlogListView, MyPostsListView
 
 urlpatterns = [
@@ -8,4 +9,7 @@ urlpatterns = [
     #url(r'^blogs/(?P<username>\w+)/$', MyPostsListView.as_view(), name='my_posts'),
     url(r'^blogs/(?P<username>\w+)/(?P<pk>\d+)$', PostDetailView.as_view(), name='posts_detail'),
     url(r'^$', HomeView.as_view(), name='posts_home'),
+
+    # API URLs
+    url(r'^api/1.0/posts/$', PostListAPI.as_view(), name='api_photos_list')
 ]
