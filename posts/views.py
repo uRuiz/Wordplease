@@ -57,7 +57,7 @@ class PostDetailView(View):
         :param request: objeto HttpRequest con los datos de la petición
         :return: objeto HttpResposne con los datos de la respuesta
         """
-        possible_posts = PostQueryset.get_posts_by_user(request.user).filter(pk=pk)
+        possible_posts = PostQueryset.get_posts_by_user(request.user, username).filter(pk=pk)
         if len(possible_posts) == 0:
             return HttpResponseNotFound("El post que buscas no existe")
         elif len(possible_posts) > 1:
