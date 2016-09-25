@@ -1,9 +1,7 @@
 {% extends 'base.html' %}
-
 {% block title %}
     {{ post.title }}
 {% endblock %}
-
 {% block body %}
     <h1>{{ post.title }}</h1>
     <img src="{{ post.url }}" alt="{{ post.title }}" title="{{ post.introduction}}" width="500">

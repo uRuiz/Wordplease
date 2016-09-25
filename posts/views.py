@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import ListView
+from django.urls import reverse
 
 from posts.forms import PostForm
 from posts.models import Post
@@ -76,7 +77,9 @@ class PostCreationView(View):
         if post_form.is_valid():
             new_post = post_form.save()
             post_form = PostForm()
-            message = 'Post creado satisfactoriamente <a href="posts/{0}">Ver post</a>'.format(new_post.pk)
+            message = 'Post creado satisfactoriamente <a href="{0}">Ver post</a>'.format(
+                reverse('posts_detail', args=[new_post.pk])
+            )
 
         context = {
             'form': post_form,

@@ -21,11 +21,12 @@ from users.views import LoginView, LogoutView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^login$', LoginView.as_view()),
-    url(r'^logout$', LogoutView.as_view()),
 
-    url(r'^create$', PostCreationView.as_view()),
-    url(r'^posts/$', PostListView.as_view()),
-    url(r'^posts/(?P<pk>\d+)$', PostDetailView.as_view()),
-    url(r'^$', HomeView.as_view()),
+    url(r'^login$', LoginView.as_view(), name='users_login'),
+    url(r'^logout$', LogoutView.as_view(), name='users_logout'),
+
+    url(r'^new_post$', PostCreationView.as_view(), name='posts_create'),
+    url(r'^posts/$', PostListView.as_view(), name='my_posts'),
+    url(r'^blogs/(?P<pk>\d+)$', PostDetailView.as_view(), name="posts_detail"),
+    url(r'^$', HomeView.as_view(), name='posts_home'),
 ]
