@@ -27,11 +27,11 @@ class UserSerializer(serializers.Serializer):
         return instance
 
     def validate_username(self, username):
-        if User.objects.filter(username=username).exists():
+        if self.instance is None or self.instance.username != username and User.objects.filter(username=username).exists():
             raise ValidationError('El nombre de usuario {0} ya está siendo utilizado'.format(username))
         return username
 
     def validate_email(self, email):
-        if User.objects.filter(email=email).exists():
+        if self.instance is None or self.instance.email != email and User.objects.filter(email=email).exists():
             raise ValidationError('El nombre de usuario {0} ya está siendo utilizado'.format(email))
-        return email
+        return email.lower()

@@ -6,7 +6,6 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.generic import ListView
 from django.urls import reverse
 from django.utils import timezone
 
@@ -22,10 +21,27 @@ class HomeView(View):
         :param request: objeto HttpRequest con los datos de la petición
         :return: objeto HttpResposne con los datos de la respuesta
         """
-        # Recupera todos los posts de la base de datos
-        posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-created_at')  # filter(published_date < datetime.now())
+        # Recupera todos los posts de la base de datos que se puedan mostrar
+        posts = Post.objects.all().order_by('-created_at')
+        if not request.user.is_authenticated():
+            posts = posts.filter(published_date__lte=timezone.now())
+        else:
+            posts = posts.filter(Q(published_date__lte=timezone.now()) | Q(owner=request.user))
+
         context = {'posts_list': posts[:5]}
         return render(request, 'posts/home.html', context)
+
+
+class PostQueryset(object):
+
+    @staticmethod
+    def get_posts_by_user(user):
+        possible_posts = Post.objects.all().select_related('owner')
+        if not user.is_authenticated():
+            possible_posts = possible_posts.filter(published_date__lte=timezone.now())
+        elif not user.is_superuser:
+            possible_posts = possible_posts.filter(Q(published_date__lte=timezone.now()) | Q(owner=user))
+        return possible_posts
 
 
 class PostDetailView(View):
@@ -36,11 +52,7 @@ class PostDetailView(View):
         :param request: objeto HttpRequest con los datos de la petición
         :return: objeto HttpResposne con los datos de la respuesta
         """
-        possible_posts = Post.objects.filter(pk=pk).select_related('owner')
-        if not request.user.is_authenticated():
-            possible_posts = possible_posts.filter(published_date__lte=timezone.now())
-        else:
-            possible_posts = possible_posts.filter(Q(published_date__lte=timezone.now()) | Q(owner=request.user))
+        possible_posts = PostQueryset.get_posts_by_user(request.user).filter(pk=pk)
         if len(possible_posts) == 0:
             return HttpResponseNotFound("El post que buscas no existe")
         elif len(possible_posts) > 1:
