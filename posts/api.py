@@ -17,7 +17,7 @@ class PostViewSet(ModelViewSet):
     filter_backends = (filters.SearchFilter, filters.OrderingFilter,)
 
     def get_queryset(self):
-        return PostQueryset.get_posts_by_user(self.request.user)
+        return PostQueryset.get_posts_by_user(self.request.user, self.request.user.username)
 
     def get_serializer_class(self):
         return PostSerializer if self.action != 'list' else PostListSerializer
