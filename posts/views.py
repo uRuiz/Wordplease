@@ -102,12 +102,12 @@ class PostCreationView(View):
             new_post = post_form.save()
             post_form = PostForm()
             message = 'Post creado satisfactoriamente <a href="{0}">Ver post</a>'.format(
-                reverse('posts_detail', args=[new_post.pk])
+                reverse('posts_detail', args=[request.user.first_name, new_post.pk])
             )
 
         context = {
             'form': post_form,
-            'message': message,
+            'message': message
         }
         return render(request, 'posts/post_creation.html', context)
 

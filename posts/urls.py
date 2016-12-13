@@ -10,8 +10,8 @@ router.register('api/1.0/posts', PostViewSet, base_name='api_posts')
 urlpatterns = [
     url(r'^new_post$', PostCreationView.as_view(), name='posts_create'),
     url(r'^blogs/$', BlogListView.as_view(), name='blogs'),
+    url(r'^blogs/(?P<username>\w+)/(?P<pk>[0-9]+)$', PostDetailView.as_view(), name='posts_detail'),
     url(r'^blogs/(?P<username>\w+)/$', MyPostsListView.as_view(), name='my_posts'),
-    url(r'^blogs/(?P<username>\w+)/(?P<pk>\d+)$', PostDetailView.as_view(), name='posts_detail'),
     url(r'^$', HomeView.as_view(), name='posts_home'),
 
     # API URLs
